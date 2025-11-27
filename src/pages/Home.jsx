@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Header from "../components/Header";
 import InputsPanelTop from "../components/InputsPanelTop";
 import InputsPanelMiddle from "../components/InputsPanelMiddle";
@@ -12,7 +12,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 
 export default function Home() {
-  const [years, setYears] = useState(20);
+  const [years, setYears] = useState(15);
   const [principal, setPrincipal] = useState(50000);
   const [annualReturn, setAnnualReturn] = useState(10);
   const [baseLivingCost, setBaseLivingCost] = useState(20000);
@@ -23,6 +23,9 @@ export default function Home() {
   const [btcPrice, setBtcPrice] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [lastEdited, setLastEdited] = useState("principal");
+  
+  const isFirstRender = useRef(true);  // Changing it doesn not cause re-render (for non-UI data)
+                                       // Returns { current: value }
 
   const inputValues = {
     years,
@@ -43,9 +46,39 @@ export default function Home() {
     setInflation,
   };
 
+  // Load saved state on mount
   useEffect(() => {
+    const saved = localStorage.getItem("appState");
+    if (saved) {
+      try {
+        const { mode: savedMode, principal: savedPrincipal } = JSON.parse(saved);
+        setMode(savedMode);
+        setPrincipal(savedPrincipal);
+      } catch (error) {
+        console.log("Failed to load state");
+      }
+    }
+    isFirstRender.current = false;  //
+  }, []);
+
+  // Save state - skip first render to avoid overwriting loaded state
+  useEffect(() => {
+    if (isFirstRender.current) return;
+    
+    localStorage.setItem("appState", JSON.stringify({ mode, principal }));
+  }, [mode, principal]);
+
+  useEffect(() => {
+    // Skip first render to let localStorage load first
+    // if (isFirstRender.current) return;
+    
+    if (mode === "conventional") {
+      setAnnualReturn(10);
+    }
+
     if (mode === "radical") {
       setAnnualReturn(20);
+      setLastEdited("principal"); // Reset to "principal", allows BTC amount recalculation
       setIsLoading(true);
 
       fetch(
@@ -64,15 +97,19 @@ export default function Home() {
     }
   }, [mode]);
 
+  // Recalculate btcAmount everytime when the state of [mode, price, principal, lastEdited] changes
   useEffect(() => {
     if (mode === "radical" && btcPrice && lastEdited === "principal") {
       setBtcAmount((principal / btcPrice).toFixed(6));
     }
   }, [mode, btcPrice, principal, lastEdited]);
 
+  // Handle the onChange of btcAmount input
   function handleBtcAmountChange(btcAmt) {
     setLastEdited("btcAmount");
     setBtcAmount(btcAmt);
+
+    // Update principal card according to new btcAmount and price
     if (btcPrice && btcAmt) {
       setPrincipal(Number(btcAmt) * btcPrice);
     }
@@ -83,11 +120,7 @@ export default function Home() {
   return (
     <Container>
       <Header />
-      <Tabs
-        activeKey={mode}
-        onSelect={(key) => setMode(key)}
-        className="mb-4"
-      >
+      <Tabs activeKey={mode} onSelect={(key) => setMode(key)} className="mb-4">
         <Tab eventKey="conventional" title="Conventional Strategy">
           <InputsPanelTop values={inputValues} setters={inputSetters} />
           <InputsPanelMiddle

@@ -18,3 +18,7 @@ FEATURES:
 2. (DONE) Graph: mouse over any year, the tooltip displays the datasets altogether
 3. Graph: mouse over with a vertical line, to improve the visual clarity
 
+OPTIMISING:
+1. Only fetch btc price once when App first launch. 
+2. Add a refresh button to update the price
+

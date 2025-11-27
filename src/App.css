@@ -44,20 +44,15 @@
   outline: none;
 }
 
-/* Input field on hover */
-/* .form-control:hover {
-  border-color: var(--color-orange-dark);
-} */
-
 /* Tooltip Styles */
 .tooltip .tooltip-inner {
-  background-color: #bdc8d3;
+  background-color: #b5b9be;
   color: #fff;
   font-size: 0.8rem;
   max-width: 300px;
 }
 
 .tooltip .tooltip-arrow::before {
-  border-top-color: #bdc8d3;
+  border-top-color: #b5b9be;
 }
 
