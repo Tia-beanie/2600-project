@@ -1,16 +1,20 @@
-# React + Vite
+===== Working Logs =====
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+BUGS:
+1. (FIXED) When principle value changed, it becomes a string
+Solution: e.target.value always returns string, so I need to convert it with Number(e.target.value)
+2. (FIXED) The BTC Amount Input field isn't working properly
+Solution: add [lastEdited] state, only calculates and sets the btcAmount according to the CAD principal, when lastEdited is "principal". Inside handleBtcAmountChange() => setLastEdited("btcAmount"), to prevent useEffect from overwriting the inputs.
 
-Currently, two official plugins are available:
+FORMATTING: 
+1. (DONE) Red/Green text of table
+2. (DONE) center the values in table
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+VALIDATION CHECK:
+1. (DONE) Return placeholder info for table and graph, when there is no data
 
-## React Compiler
+FEATURES:
+1. Increment of Annaul Return and Inlation Rate can be 0.1 instead of 1
+2. (DONE) Graph: mouse over any year, the tooltip displays the datasets altogether
+3. Graph: mouse over with a vertical line, to improve the visual clarity
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.

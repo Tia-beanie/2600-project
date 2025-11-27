@@ -1,12 +1,12 @@
 export default function Header() {
     return (
-        <header className="text-center my-4">
-            <h1>
-                How Much Investment Is Meaningful for Your Living?
-            </h1>
-            <p className="text-muted">
-                Compare your investment growth against your annual living cost.
-            </p>
-        </header>
+        <div className="text-left">
+          <h2 className="mb-1">
+            Inflation vs. Investment Calculator
+          </h2>
+          <p className="text-muted mb-4 small">
+            Find out how much investing truly impacts your life.
+          </p>
+        </div>
     )
 }

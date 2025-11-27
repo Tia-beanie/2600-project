@@ -1,0 +1,63 @@
+/* Color Palette */
+:root {
+  /* Primary Colors */
+  --color-graphite: #31302F;
+  --color-snow: #f4f4f4;
+  --color-orange: #f79926;
+  --color-orange-dark: #f4722a;
+  
+  /* Transparency Variants */
+  --color-orange-20: rgba(247, 153, 38, 0.2);
+  --color-orange-50: rgba(247, 153, 38, 0.5);
+  
+  /* Other Colors */
+  --color-green: #0dab76;
+  --color-red: #f04a2d;
+}
+
+.header {
+    background-color: white;
+}
+
+/* Card Styles */
+.card-initial-fund {
+  background-color: var(--color-graphite);
+  color: var(--color-snow);
+}
+
+.card-btc-orange {
+  background-color: var(--color-orange-20);
+  color: var(--color-orange-dark);
+  border: 1px solid var(--color-orange-50);
+}
+
+
+/* Input Field Styles */
+.card-btc-orange .form-control {
+  border: 1px solid var(--color-orange);
+}
+
+/* Input field when focused (clicked) */
+.card-btc-orange .form-control:focus {
+  border-color: var(--color-orange-dark);
+  box-shadow: 0 0 0 0.2rem var(--color-orange-20);
+  outline: none;
+}
+
+/* Input field on hover */
+/* .form-control:hover {
+  border-color: var(--color-orange-dark);
+} */
+
+/* Tooltip Styles */
+.tooltip .tooltip-inner {
+  background-color: #bdc8d3;
+  color: #fff;
+  font-size: 0.8rem;
+  max-width: 300px;
+}
+
+.tooltip .tooltip-arrow::before {
+  border-top-color: #bdc8d3;
+}
+
